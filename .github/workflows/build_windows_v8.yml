@@ -1,4 +1,4 @@
-name: Build V8 Static Library
+name: Build V8 Monolitch Static Library for Windows
 
 # Disable build on push/pulll
 on:
