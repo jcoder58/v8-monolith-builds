@@ -15,6 +15,7 @@ on:
       version:
         description: V8 Version
         required: false
+        
 jobs:
   build:
     name: ${{ matrix.config.name }}_${{ matrix.config.arch }}
@@ -29,7 +30,7 @@ jobs:
             arch: x64
             lib_name: v8_monolith.lib
     env:
-      DEPOT_TOOLS_WIN_TOOLCHAIN: 1
+      DEPOT_TOOLS_WIN_TOOLCHAIN: 0
 
     steps:
       - name: Clone repository
@@ -50,3 +51,5 @@ jobs:
           Invoke-WebRequest -Uri https://storage.googleapis.com/chrome-infra/depot_tools.zip -OutFile depot_tools.zip
           Expand-Archive depot_tools.zip ./depot_tools
           dir
+          echo "${HOME}/depot_tools" >> $GITHUB_PATH
+          gclient
