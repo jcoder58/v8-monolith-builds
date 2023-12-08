@@ -50,6 +50,4 @@ jobs:
         run: |
           Invoke-WebRequest -Uri https://storage.googleapis.com/chrome-infra/depot_tools.zip -OutFile depot_tools.zip
           Expand-Archive depot_tools.zip ./depot_tools
-          cd ./depot_tools
-          dir
-          ./gclient
+          ./depot_tools/gclient
