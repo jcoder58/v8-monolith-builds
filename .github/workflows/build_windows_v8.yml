@@ -51,5 +51,6 @@ jobs:
           Invoke-WebRequest -Uri https://storage.googleapis.com/chrome-infra/depot_tools.zip -OutFile depot_tools.zip
           Expand-Archive depot_tools.zip ./depot_tools
           dir
-          echo "${HOME}/depot_tools" >> $GITHUB_PATH
+          echo "$;{HOME}/depot_tools" >> $GITHUB_PATH
+          echo "${GITHUB_PATH}"
           gclient
