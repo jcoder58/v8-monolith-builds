@@ -27,7 +27,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.12.1
+          python-version: 3.8
       
       - name: Get target V8 version
         id: version
@@ -41,6 +41,7 @@ jobs:
         shell: pwsh
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+          gclient
           echo "$pwd/depot_tools" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         
       - name: Checkout V8 source
@@ -99,7 +100,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.12.1
+          python-version: 3.8
       
       - name: Install MSVC/MCBuild (Windows)
         if: runner.os == 'Windows'
