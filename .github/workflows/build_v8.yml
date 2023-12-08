@@ -27,7 +27,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v2
         with:
-          python-version: 2.7.17
+          python-version: 3.12.1
       
       - name: Get target V8 version
         id: version
