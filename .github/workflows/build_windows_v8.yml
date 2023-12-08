@@ -1,4 +1,4 @@
-name: Build V8 Monolitch Static Library for Windows
+name: Build V8 Monolithic Static Library for Windows
 
 # Disable build on push/pulll
 on:
@@ -51,10 +51,10 @@ jobs:
           Invoke-WebRequest -Uri https://storage.googleapis.com/chrome-infra/depot_tools.zip -OutFile depot_tools.zip
           Expand-Archive depot_tools.zip ./depot_tools
           echo "$pwd/depot_tools" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          gclient
           
       - name: Checkout V8 source
         run: |
+          gclient
           fetch v8
           cd v8
           git checkout ${{ env.V8_VERSION }}
