@@ -130,11 +130,12 @@ jobs:
         shell: pwsh
         run: |
           Set-Location -Path v8
-          python tools/dev/v8gen.py ${{ matrix.config.arch }}.release
-          Copy-Item "../platforms/${{ matrix.config.name }}_${{ matrix.config.arch }}/args.gn" -Destination "./out.gn/${{ matrix.config.arch }}.release/args.gn" -force
-          gn gen out.gn/${{ matrix.config.arch }}.release
-          Get-Content ./out.gn/${{ matrix.config.arch }}.release/args.gn | Write-Output
-          ninja -C out.gn/${{ matrix.config.arch }}.release
+          tools/dev/gm.py ${{ matrix.config.arch }}.release
+          # python tools/dev/v8gen.py ${{ matrix.config.arch }}.release
+          # Copy-Item "../platforms/${{ matrix.config.name }}_${{ matrix.config.arch }}/args.gn" -Destination "./out.gn/${{ matrix.config.arch }}.release/args.gn" -force
+          # gn gen out.gn/${{ matrix.config.arch }}.release
+          # Get-Content ./out.gn/${{ matrix.config.arch }}.release/args.gn | Write-Output
+          # ninja -C out.gn/${{ matrix.config.arch }}.release
       
       - name: Prepare out directory
         shell: pwsh
