@@ -59,4 +59,30 @@ jobs:
           cd v8
           git checkout ${{ env.V8_VERSION }}
           gclient sync
+
+      - name: Build V8
+        shell: pwsh
+        run: |
+          Set-Location -Path v8
+          python tools/dev/v8gen.py ${{ matrix.config.arch }}.release
+          Copy-Item "../platforms/${{ matrix.config.name }}_${{ matrix.config.arch }}/args.gn" -Destination "./out.gn/${{ matrix.config.arch }}.release/args.gn" -force
+          gn gen out.gn/${{ matrix.config.arch }}.release
+          Get-Content ./out.gn/${{ matrix.config.arch }}.release/args.gn | Write-Output
+          ninja -C out.gn/${{ matrix.config.arch }}.release
       
+      - name: Prepare out directory
+        shell: pwsh
+        run: |
+          New-Item -ItemType directory -Path ./out/
+          Copy-Item -Path ./v8/out.gn/x64.release/obj/${{ matrix.config.lib_name }} -Destination ./out/${{ matrix.config.name }}_${{ matrix.config.arch }}_${{ matrix.config.lib_name }}
+          If ($IsLinux -or $IsMacOS) { Copy-Item -Path ./v8/out.gn/x64.release/d8 -Destination ./out/${{ matrix.config.name }}_${{ matrix.config.arch }}_d8 }
+          If ($IsWindows) { Copy-Item -Path ./v8/out.gn/x64.release/d8.exe -Destination ./out/${{ matrix.config.name }}_${{ matrix.config.arch }}_d8.exe }
+      
+      - name: Release monolithic V8 lib & d8
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./out/*
+          name: V8 Release ${{ env.V8_VERSION }}
+          tag_name: v${{ env.V8_VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
